@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, FolderOpen, Heart, LogOut, BarChart3 } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Plus, FolderOpen, Heart, LogOut, BarChart3, Pencil, Trash2, MoreVertical } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import SearchBar from "@/components/SearchBar";
 
@@ -22,6 +24,10 @@ const Dashboard = () => {
   const [newSessionName, setNewSessionName] = useState("");
   const [newCowCount, setNewCowCount] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null);
+  const [editSessionName, setEditSessionName] = useState("");
   const [user, setUser] = useState<{ name: string; farmName: string } | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -76,6 +82,64 @@ const Dashboard = () => {
     setNewSessionName("");
     setNewCowCount("");
     setIsDialogOpen(false);
+  };
+
+  const handleEditSession = () => {
+    if (!selectedSession || !editSessionName.trim()) {
+      toast({
+        title: "Erro",
+        description: "O nome da sessão não pode estar vazio",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const updatedSessions = sessions.map((session) =>
+      session.id === selectedSession.id
+        ? { ...session, name: editSessionName }
+        : session
+    );
+
+    setSessions(updatedSessions);
+    localStorage.setItem("sessions", JSON.stringify(updatedSessions));
+
+    toast({
+      title: "Sessão atualizada!",
+      description: `O nome foi alterado para "${editSessionName}".`,
+    });
+
+    setIsEditDialogOpen(false);
+    setSelectedSession(null);
+    setEditSessionName("");
+  };
+
+  const handleDeleteSession = () => {
+    if (!selectedSession) return;
+
+    const updatedSessions = sessions.filter((session) => session.id !== selectedSession.id);
+    setSessions(updatedSessions);
+    localStorage.setItem("sessions", JSON.stringify(updatedSessions));
+
+    toast({
+      title: "Sessão excluída!",
+      description: `A sessão "${selectedSession.name}" foi removida.`,
+    });
+
+    setIsDeleteDialogOpen(false);
+    setSelectedSession(null);
+  };
+
+  const openEditDialog = (session: Session, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedSession(session);
+    setEditSessionName(session.name);
+    setIsEditDialogOpen(true);
+  };
+
+  const openDeleteDialog = (session: Session, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedSession(session);
+    setIsDeleteDialogOpen(true);
   };
 
   const handleLogout = () => {
@@ -298,11 +362,32 @@ const Dashboard = () => {
                     style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-lg text-gray-800">{session.name}</CardTitle>
-                      <CardDescription>
-                        {session.cowCount} vacas • Criada em{" "}
-                        {new Date(session.createdAt).toLocaleDateString("pt-BR")}
-                      </CardDescription>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg text-gray-800">{session.name}</CardTitle>
+                          <CardDescription>
+                            {session.cowCount} vacas • Criada em{" "}
+                            {new Date(session.createdAt).toLocaleDateString("pt-BR")}
+                          </CardDescription>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-gray-700 hover:bg-gray-100">
+                              <MoreVertical className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="bg-white border border-gray-200">
+                            <DropdownMenuItem onClick={(e) => openEditDialog(session, e)} className="cursor-pointer">
+                              <Pencil className="w-4 h-4 mr-2" />
+                              Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={(e) => openDeleteDialog(session, e)} className="cursor-pointer text-red-600 focus:text-red-600">
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Excluir
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </CardHeader>
                     <CardContent>
                       <div className="flex gap-4 text-sm">
@@ -327,6 +412,58 @@ const Dashboard = () => {
           )}
         </div>
       </main>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="bg-white/95 backdrop-blur-sm border border-white/80">
+          <DialogHeader>
+            <DialogTitle className="text-gray-800">Editar Sessão</DialogTitle>
+            <DialogDescription>
+              Altere o nome da sessão "{selectedSession?.name}"
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label htmlFor="editSessionName" className="text-gray-700">Nome da sessão</Label>
+              <Input
+                id="editSessionName"
+                placeholder="Ex: Lote A - Dezembro 2024"
+                value={editSessionName}
+                onChange={(e) => setEditSessionName(e.target.value)}
+                className="bg-white border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
+              />
+            </div>
+            <Button 
+              onClick={handleEditSession} 
+              className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
+            >
+              Salvar Alterações
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent className="bg-white/95 backdrop-blur-sm border border-white/80">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-gray-800">Excluir Sessão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir a sessão "{selectedSession?.name}"? 
+              Esta ação não pode ser desfeita e todos os registros de verificação serão perdidos.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="border-gray-200">Cancelar</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteSession}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Search Bar */}
       <SearchBar />
