@@ -112,89 +112,100 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-white relative overflow-hidden pb-24">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 left-20 w-96 h-96 bg-green-200/15 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
       {/* Header */}
-      <header className="bg-primary text-primary-foreground">
+      <header className="relative z-10 bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-500/30">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
                 <Heart className="w-5 h-5" />
               </div>
               <div>
                 <h1 className="text-xl font-bold">BovCheck</h1>
-                <p className="text-sm text-primary-foreground/80">{user?.farmName}</p>
+                <p className="text-sm text-white/80">{user?.farmName}</p>
               </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout} className="text-primary-foreground hover:bg-primary-foreground/20">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleLogout} 
+              className="text-white hover:bg-white/20"
+            >
               <LogOut className="w-5 h-5" />
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main className="relative z-10 container mx-auto px-4 py-6 space-y-6">
         {/* Welcome */}
         <div className="animate-fade-in">
-          <h2 className="text-2xl font-bold text-foreground">
+          <h2 className="text-2xl font-bold text-gray-800">
             Olá, {user?.name?.split(" ")[0]}! 👋
           </h2>
-          <p className="text-muted-foreground">Gerencie suas sessões de verificação</p>
+          <p className="text-gray-500">Gerencie suas sessões de verificação</p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <FolderOpen className="w-5 h-5 text-primary" />
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center">
+                  <FolderOpen className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-foreground">{sessions.length}</p>
-                  <p className="text-xs text-muted-foreground">Sessões</p>
+                  <p className="text-2xl font-bold text-gray-800">{sessions.length}</p>
+                  <p className="text-xs text-gray-500">Sessões</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-muted-foreground" />
+                <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                  <BarChart3 className="w-5 h-5 text-gray-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-foreground">{totalStats.totalCows}</p>
-                  <p className="text-xs text-muted-foreground">Total vacas</p>
+                  <p className="text-2xl font-bold text-gray-800">{totalStats.totalCows}</p>
+                  <p className="text-xs text-gray-500">Total vacas</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-success" />
+                <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-success">{totalStats.pregnant}</p>
-                  <p className="text-xs text-muted-foreground">Grávidas</p>
+                  <p className="text-2xl font-bold text-emerald-600">{totalStats.pregnant}</p>
+                  <p className="text-xs text-gray-500">Grávidas</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-warning" />
+                <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
+                  <Heart className="w-5 h-5 text-amber-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-warning">{totalStats.notPregnant}</p>
-                  <p className="text-xs text-muted-foreground">Não grávidas</p>
+                  <p className="text-2xl font-bold text-amber-600">{totalStats.notPregnant}</p>
+                  <p className="text-xs text-gray-500">Não grávidas</p>
                 </div>
               </div>
             </CardContent>
@@ -204,33 +215,37 @@ const Dashboard = () => {
         {/* Sessions */}
         <div className="space-y-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-foreground">Suas Sessões</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Suas Sessões</h3>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button size="sm">
+                <Button 
+                  size="sm" 
+                  className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-md shadow-emerald-500/30"
+                >
                   <Plus className="w-4 h-4" />
                   Nova Sessão
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="bg-white/95 backdrop-blur-sm border border-white/80">
                 <DialogHeader>
-                  <DialogTitle>Criar Nova Sessão</DialogTitle>
+                  <DialogTitle className="text-gray-800">Criar Nova Sessão</DialogTitle>
                   <DialogDescription>
                     Defina o nome e a quantidade de vacas para esta sessão
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div className="space-y-2">
-                    <Label htmlFor="sessionName">Nome da sessão</Label>
+                    <Label htmlFor="sessionName" className="text-gray-700">Nome da sessão</Label>
                     <Input
                       id="sessionName"
                       placeholder="Ex: Lote A - Dezembro 2024"
                       value={newSessionName}
                       onChange={(e) => setNewSessionName(e.target.value)}
+                      className="bg-white border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="cowCount">Quantidade de vacas</Label>
+                    <Label htmlFor="cowCount" className="text-gray-700">Quantidade de vacas</Label>
                     <Input
                       id="cowCount"
                       type="number"
@@ -238,9 +253,13 @@ const Dashboard = () => {
                       placeholder="Ex: 50"
                       value={newCowCount}
                       onChange={(e) => setNewCowCount(e.target.value)}
+                      className="bg-white border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                     />
                   </div>
-                  <Button onClick={handleCreateSession} className="w-full">
+                  <Button 
+                    onClick={handleCreateSession} 
+                    className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
+                  >
                     Criar Sessão
                   </Button>
                 </div>
@@ -249,16 +268,19 @@ const Dashboard = () => {
           </div>
 
           {sessions.length === 0 ? (
-            <Card className="border-dashed border-2 border-muted">
+            <Card className="bg-white/40 backdrop-blur-sm border-2 border-dashed border-emerald-200">
               <CardContent className="flex flex-col items-center justify-center py-12">
-                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <FolderOpen className="w-8 h-8 text-muted-foreground" />
+                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <FolderOpen className="w-8 h-8 text-emerald-600" />
                 </div>
-                <h4 className="text-lg font-medium text-foreground mb-1">Nenhuma sessão criada</h4>
-                <p className="text-sm text-muted-foreground text-center mb-4">
+                <h4 className="text-lg font-medium text-gray-800 mb-1">Nenhuma sessão criada</h4>
+                <p className="text-sm text-gray-500 text-center mb-4">
                   Crie sua primeira sessão para começar a registrar verificações
                 </p>
-                <Button onClick={() => setIsDialogOpen(true)}>
+                <Button 
+                  onClick={() => setIsDialogOpen(true)}
+                  className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
+                >
                   <Plus className="w-4 h-4" />
                   Criar primeira sessão
                 </Button>
@@ -271,12 +293,12 @@ const Dashboard = () => {
                 return (
                   <Card
                     key={session.id}
-                    className="cursor-pointer border-0 shadow-soft hover:shadow-medium transition-all duration-200 hover:-translate-y-1"
+                    className="cursor-pointer bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5 hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1"
                     onClick={() => navigate(`/session/${session.id}`)}
                     style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">{session.name}</CardTitle>
+                      <CardTitle className="text-lg text-gray-800">{session.name}</CardTitle>
                       <CardDescription>
                         {session.cowCount} vacas • Criada em{" "}
                         {new Date(session.createdAt).toLocaleDateString("pt-BR")}
@@ -285,16 +307,16 @@ const Dashboard = () => {
                     <CardContent>
                       <div className="flex gap-4 text-sm">
                         <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-success" />
-                          <span className="text-muted-foreground">{stats.pregnant} grávidas</span>
+                          <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                          <span className="text-gray-500">{stats.pregnant} grávidas</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-warning" />
-                          <span className="text-muted-foreground">{stats.notPregnant} não</span>
+                          <div className="w-2 h-2 rounded-full bg-amber-500" />
+                          <span className="text-gray-500">{stats.notPregnant} não</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-muted-foreground" />
-                          <span className="text-muted-foreground">{stats.pending} pendentes</span>
+                          <div className="w-2 h-2 rounded-full bg-gray-400" />
+                          <span className="text-gray-500">{stats.pending} pendentes</span>
                         </div>
                       </div>
                     </CardContent>

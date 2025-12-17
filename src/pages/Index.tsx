@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Stethoscope, BarChart3, ArrowRight } from "lucide-react";
+import { Heart, Stethoscope, BarChart3, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
     const user = localStorage.getItem("user");
     if (user) {
       navigate("/dashboard");
@@ -15,76 +14,300 @@ const Index = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Hero Background */}
-      <div className="absolute top-0 left-0 right-0 h-[70vh] bg-gradient-to-b from-primary/10 via-primary/5 to-transparent" />
-      
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-10 w-24 h-24 bg-success/10 rounded-full blur-3xl" />
-      <div className="absolute top-40 right-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-white relative overflow-hidden">
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10">
-        <div className="w-full max-w-md text-center animate-fade-in">
-          {/* Logo */}
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-primary shadow-elevated mb-6 animate-float">
-            <div className="relative">
-              <Heart className="w-12 h-12 text-primary-foreground" />
-              <Stethoscope className="w-6 h-6 text-primary-foreground absolute -bottom-1 -right-1" />
-            </div>
-          </div>
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
 
-          <h1 className="text-4xl font-bold text-foreground mb-3">
-            BovCheck
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8">
-            Detecção de gravidez bovina por ultrassom
-          </p>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl animate-pulse" />
 
-          {/* Features */}
-          <div className="grid grid-cols-3 gap-4 mb-10">
-            <div className="text-center p-4 rounded-xl bg-card shadow-soft">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
-                <Stethoscope className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-xs text-muted-foreground">Análise de áudio</p>
-            </div>
-            <div className="text-center p-4 rounded-xl bg-card shadow-soft">
-              <div className="w-12 h-12 rounded-xl bg-success/10 flex items-center justify-center mx-auto mb-3">
-                <Heart className="w-6 h-6 text-success" />
-              </div>
-              <p className="text-xs text-muted-foreground">Detecção precisa</p>
-            </div>
-            <div className="text-center p-4 rounded-xl bg-card shadow-soft">
-              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-3">
-                <BarChart3 className="w-6 h-6 text-accent" />
-              </div>
-              <p className="text-xs text-muted-foreground">Relatórios</p>
-            </div>
-          </div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-green-200/20 rounded-full blur-3xl animate-pulse delay-1000" />
 
-          {/* CTA */}
-          <Button
-            onClick={() => navigate("/auth")}
-            size="xl"
-            className="w-full group"
-          >
-            Começar agora
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Button>
+        <div className="absolute bottom-20 left-1/3 w-64 h-64 bg-emerald-100/40 rounded-full blur-3xl animate-pulse delay-500" />
 
-          <p className="text-sm text-muted-foreground mt-4">
-            Gerencie suas verificações de forma simples
-          </p>
-        </div>
       </div>
 
+
+      {/* Header */}
+      <header className="relative z-10 flex items-center justify-between px-6 py-4 lg:px-12">
+
+        <div className="flex items-center gap-3">
+
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-green-600 flex items-center justify-center shadow-lg">
+
+            <Heart className="w-5 h-5 text-white" />
+
+          </div>
+
+          <div>
+
+            <h1 className="text-lg font-bold text-gray-800">BovCheck</h1>
+
+            <p className="text-xs text-emerald-600 font-medium">by Trinca P&D</p>
+
+          </div>
+
+        </div>
+
+        <Button
+          variant="outline"
+          onClick={() => navigate("/auth")}
+          className="border-emerald-600 text-emerald-600 hover:bg-emerald-50"
+        >
+          Entrar
+        </Button>
+
+      </header>
+
+
+      {/* Hero Section */}
+      <main className="relative z-10 container mx-auto px-6 py-12 lg:py-20">
+        <div className="max-w-4xl mx-auto text-center">
+
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 mb-8">
+
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium border border-emerald-200">
+
+              <Sparkles className="w-4 h-4" />
+              
+              <span>
+                Tecnologia em pesquisa e inovação veterinária
+              </span>
+
+            </span>
+
+          </div>
+
+
+          {/* Main Title */}
+          <div className="space-y-6 mb-12">
+
+            <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+
+              Detecção de Gravidez
+              <br />
+
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-600">
+                Bovina Inteligente
+              </span>
+
+            </h2>
+
+            <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+
+              Plataforma de pesquisa para apoio à análise de sinais de ultrassom na detecção de gestação bovina de forma rápida, precisa e eficiente
+
+            </p>
+
+          </div>
+
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+
+            <Button
+              onClick={() => navigate("/auth")}
+              size="lg"
+              className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg shadow-emerald-500/50 group"
+            >
+              Começar Gratuitamente
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-gray-300 text-gray-700 hover:bg-gray-50"
+              onClick={() => {
+                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Conheça o sistema
+            </Button>
+
+          </div>
+
+
+          {/* Feature Cards */}
+          <div id="features" className="grid md:grid-cols-3 gap-6 mb-16">
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/80 shadow-xl shadow-emerald-500/5 hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
+
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center mb-4 mx-auto">
+
+                <Stethoscope className="w-6 h-6 text-white" />
+
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+
+                Análise por Ultrassom
+
+              </h3>
+
+              <p className="text-gray-600 text-sm">
+
+                Processa áudio de ultrassom em tempo real para detectar batimentos cardíacos do feto
+
+              </p>
+
+            </div>
+
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/80 shadow-xl shadow-emerald-500/5 hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
+
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center mb-4 mx-auto">
+
+                <Heart className="w-6 h-6 text-white" />
+
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+
+                Detecção Precisa
+
+              </h3>
+
+              <p className="text-gray-600 text-sm">
+
+                Auxilia na interpretação da presença de um ou mais batimentos cardíacos batendo
+
+              </p>
+
+            </div>
+
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/80 shadow-xl shadow-emerald-500/5 hover:shadow-emerald-500/10 transition-all duration-300 hover:-translate-y-1">
+
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-green-600 flex items-center justify-center mb-4 mx-auto">
+
+                <BarChart3 className="w-6 h-6 text-white" />
+
+              </div>
+
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+
+                Relatórios Completos
+
+              </h3>
+
+              <p className="text-gray-600 text-sm">
+
+                Gera planilhas mensais e histórico completo de todas as verificações
+
+              </p>
+
+            </div>
+
+          </div>
+
+
+          {/* Benefits List */}
+          <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-8 border border-white/60 mb-16">
+
+            <h3 className="text-xl font-semibold text-gray-800 mb-6">
+
+              Por que escolher o BovCheck?
+
+            </h3>
+
+            <div className="grid sm:grid-cols-2 gap-4 text-left">
+
+              {[
+                "Interface amigável e intuitiva",
+                "Gestão ilimitada de sessões",
+                "Acompanhamento mensal detalhado",
+                "Busca avançada de registros",
+                "Exportação de relatórios em CSV",
+                "Sistema 100% seguro e confiável"
+              ].map((benefit, index) => (
+
+                <div key={index} className="flex items-center gap-3 text-gray-700">
+
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+
+                  {benefit}
+
+                </div>
+
+              ))}
+
+            </div>
+
+          </div>
+
+
+          {/* Social Proof */}
+          <div className="text-center">
+
+            <p className="text-sm text-gray-500 mb-4">
+
+              Desenvolvido por
+
+            </p>
+
+            <div className="inline-flex items-center gap-3">
+
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-green-600 flex items-center justify-center text-white font-bold">
+
+                T
+
+              </div>
+
+              <span className="text-gray-800 font-semibold">
+                Trinca Pesquisa & Desenvolvimento
+              </span>
+
+            </div>
+
+            <p className="text-sm text-gray-500 mt-2">
+
+              Inovação e tecnologia para o agronegócio
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </main>
+
       {/* Footer */}
-      <footer className="p-6 text-center">
-        <p className="text-xs text-muted-foreground">
-          Sistema inteligente de detecção de gravidez bovina
-        </p>
+      <footer className="relative z-10 border-t border-emerald-100 bg-white/50 backdrop-blur-sm">
+
+        <div className="container mx-auto px-6 py-6">
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+            <div className="flex items-center gap-2 text-gray-600">
+
+              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-600 to-green-600 flex items-center justify-center">
+
+                <Heart className="w-3 h-3 text-white" />
+
+              </div>
+
+              <span className="text-sm">
+                © 2024 BovCheck - Trinca P&D
+              </span>
+
+            </div>
+
+            <p className="text-sm text-gray-500">
+
+              Sistema de detecção de gestação bovina por ultrassom
+
+            </p>
+
+          </div>
+
+        </div>
+
       </footer>
+
     </div>
+
   );
 };
 

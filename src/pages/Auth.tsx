@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Stethoscope, Eye, EyeOff } from "lucide-react";
+import { Heart, Stethoscope, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
@@ -20,7 +20,6 @@ const Auth = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simulate authentication (replace with real auth later)
     if (email && password) {
       toast({
         title: isLogin ? "Bem-vindo de volta!" : "Conta criada com sucesso!",
@@ -29,7 +28,6 @@ const Auth = () => {
           : "Sua conta foi criada. Redirecionando...",
       });
       
-      // Store user info temporarily
       localStorage.setItem("user", JSON.stringify({ 
         email, 
         name: name || "Usuário",
@@ -41,28 +39,44 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header decoration */}
-      <div className="absolute top-0 left-0 right-0 h-72 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent" />
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-white relative overflow-hidden flex flex-col">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 right-20 w-96 h-96 bg-green-200/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
+      {/* Header */}
+      <header className="relative z-10 flex items-center justify-between px-6 py-4 lg:px-12">
+        <Button
+          variant="ghost"
+          onClick={() => navigate("/")}
+          className="text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Voltar
+        </Button>
+      </header>
       
-      <div className="flex-1 flex items-center justify-center p-4 relative z-10">
+      <div className="flex-1 flex items-center justify-center p-6 relative z-10">
         <div className="w-full max-w-md animate-fade-in">
           {/* Logo Section */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary shadow-elevated mb-4">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-600 shadow-lg shadow-emerald-500/30 mb-4">
               <div className="relative">
-                <Heart className="w-10 h-10 text-primary-foreground animate-pulse-ring" />
-                <Stethoscope className="w-5 h-5 text-primary-foreground absolute -bottom-1 -right-1" />
+                <Heart className="w-10 h-10 text-white animate-pulse" />
+                <Stethoscope className="w-5 h-5 text-white absolute -bottom-1 -right-1" />
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">BovCheck</h1>
-            <p className="text-muted-foreground">Detecção de gravidez bovina inteligente</p>
+            <h1 className="text-3xl font-bold text-gray-800 mb-1">BovCheck</h1>
+            <p className="text-sm text-emerald-600 font-medium">by Trinca P&D</p>
+            <p className="text-gray-500 mt-2">Detecção de gravidez bovina inteligente</p>
           </div>
 
           {/* Auth Card */}
-          <Card className="shadow-elevated border-0 bg-card">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-xl shadow-emerald-500/5">
             <CardHeader className="text-center pb-2">
-              <CardTitle className="text-xl">
+              <CardTitle className="text-xl text-gray-800">
                 {isLogin ? "Entrar na conta" : "Criar nova conta"}
               </CardTitle>
               <CardDescription>
@@ -76,32 +90,32 @@ const Auth = () => {
                 {!isLogin && (
                   <>
                     <div className="space-y-2">
-                      <Label htmlFor="name">Seu nome</Label>
+                      <Label htmlFor="name" className="text-gray-700">Seu nome</Label>
                       <Input
                         id="name"
                         type="text"
                         placeholder="João Silva"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="h-11"
+                        className="h-11 bg-white/80 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="farmName">Nome da fazenda</Label>
+                      <Label htmlFor="farmName" className="text-gray-700">Nome da fazenda</Label>
                       <Input
                         id="farmName"
                         type="text"
                         placeholder="Fazenda Boa Vista"
                         value={farmName}
                         onChange={(e) => setFarmName(e.target.value)}
-                        className="h-11"
+                        className="h-11 bg-white/80 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                       />
                     </div>
                   </>
                 )}
                 
                 <div className="space-y-2">
-                  <Label htmlFor="email">E-mail</Label>
+                  <Label htmlFor="email" className="text-gray-700">E-mail</Label>
                   <Input
                     id="email"
                     type="email"
@@ -109,12 +123,12 @@ const Auth = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="h-11"
+                    className="h-11 bg-white/80 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Senha</Label>
+                  <Label htmlFor="password" className="text-gray-700">Senha</Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -123,19 +137,23 @@ const Auth = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="h-11 pr-10"
+                      className="h-11 pr-10 bg-white/80 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full" size="lg">
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-lg shadow-emerald-500/30" 
+                  size="lg"
+                >
                   {isLogin ? "Entrar" : "Criar conta"}
                 </Button>
               </form>
@@ -144,7 +162,7 @@ const Auth = () => {
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm text-gray-500 hover:text-emerald-600 transition-colors"
                 >
                   {isLogin 
                     ? "Não tem conta? Criar agora" 
@@ -155,7 +173,7 @@ const Auth = () => {
           </Card>
 
           {/* Footer */}
-          <p className="text-center text-xs text-muted-foreground mt-6">
+          <p className="text-center text-xs text-gray-500 mt-6">
             Sistema de detecção de gravidez por ultrassom
           </p>
         </div>

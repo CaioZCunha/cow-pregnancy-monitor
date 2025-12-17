@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ArrowLeft, Heart, Stethoscope, Download, Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Heart, Stethoscope, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AudioAnalyzer from "@/components/AudioAnalyzer";
 import CowTable from "@/components/CowTable";
@@ -56,7 +56,6 @@ const SessionDetail = () => {
     const updatedSession = { ...session, records: updatedRecords };
     setSession(updatedSession);
 
-    // Update localStorage
     const storedSessions = localStorage.getItem("sessions");
     if (storedSessions) {
       const sessions: Session[] = JSON.parse(storedSessions);
@@ -130,35 +129,41 @@ const SessionDetail = () => {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse text-muted-foreground">Carregando...</div>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-white flex items-center justify-center">
+        <div className="animate-pulse text-gray-500">Carregando...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-white relative overflow-hidden pb-24">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-40 left-20 w-96 h-96 bg-green-200/15 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
       {/* Header */}
-      <header className="bg-primary text-primary-foreground sticky top-0 z-20">
+      <header className="relative z-20 bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-500/30 sticky top-0">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate("/dashboard")}
-              className="text-primary-foreground hover:bg-primary-foreground/20"
+              className="text-white hover:bg-white/20"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex-1">
               <h1 className="text-lg font-bold">{session.name}</h1>
-              <p className="text-sm text-primary-foreground/80">{session.cowCount} vacas</p>
+              <p className="text-sm text-white/80">{session.cowCount} vacas</p>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={downloadReport}
-              className="text-primary-foreground hover:bg-primary-foreground/20"
+              className="text-white hover:bg-white/20"
             >
               <Download className="w-5 h-5" />
             </Button>
@@ -166,44 +171,44 @@ const SessionDetail = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main className="relative z-10 container mx-auto px-4 py-6 space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 animate-fade-in">
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center mx-auto mb-2">
-                <Heart className="w-5 h-5 text-success" />
+              <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center mx-auto mb-2">
+                <Heart className="w-5 h-5 text-emerald-600" />
               </div>
-              <p className="text-2xl font-bold text-success">{stats.pregnant}</p>
-              <p className="text-xs text-muted-foreground">Grávidas</p>
+              <p className="text-2xl font-bold text-emerald-600">{stats.pregnant}</p>
+              <p className="text-xs text-gray-500">Grávidas</p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center mx-auto mb-2">
-                <Heart className="w-5 h-5 text-warning" />
+              <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center mx-auto mb-2">
+                <Heart className="w-5 h-5 text-amber-600" />
               </div>
-              <p className="text-2xl font-bold text-warning">{stats.notPregnant}</p>
-              <p className="text-xs text-muted-foreground">Não grávidas</p>
+              <p className="text-2xl font-bold text-amber-600">{stats.notPregnant}</p>
+              <p className="text-xs text-gray-500">Não grávidas</p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-soft">
+          <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5">
             <CardContent className="p-4 text-center">
-              <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center mx-auto mb-2">
-                <Stethoscope className="w-5 h-5 text-muted-foreground" />
+              <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center mx-auto mb-2">
+                <Stethoscope className="w-5 h-5 text-gray-600" />
               </div>
-              <p className="text-2xl font-bold text-foreground">{stats.pending}</p>
-              <p className="text-xs text-muted-foreground">Pendentes</p>
+              <p className="text-2xl font-bold text-gray-700">{stats.pending}</p>
+              <p className="text-xs text-gray-500">Pendentes</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Month Selector */}
-        <Card className="border-0 shadow-soft animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <Card className="bg-white/60 backdrop-blur-sm border border-white/80 shadow-lg shadow-emerald-500/5 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Mês da verificação</CardTitle>
+            <CardTitle className="text-base text-gray-800">Mês da verificação</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2">
@@ -211,10 +216,10 @@ const SessionDetail = () => {
                 <Badge
                   key={month}
                   variant={selectedMonth === month ? "default" : "secondary"}
-                  className={`cursor-pointer shrink-0 px-3 py-1.5 ${
+                  className={`cursor-pointer shrink-0 px-3 py-1.5 transition-all ${
                     selectedMonth === month 
-                      ? "bg-primary text-primary-foreground" 
-                      : "hover:bg-muted"
+                      ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white border-0" 
+                      : "bg-white/80 text-gray-600 hover:bg-emerald-50 border border-gray-200"
                   }`}
                   onClick={() => setSelectedMonth(month)}
                 >
@@ -238,9 +243,9 @@ const SessionDetail = () => {
 
       {/* Audio Analyzer Dialog */}
       <Dialog open={isAnalyzerOpen} onOpenChange={setIsAnalyzerOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white/95 backdrop-blur-sm border border-white/80">
           <DialogHeader>
-            <DialogTitle>Análise de Áudio - Vaca {selectedCow}</DialogTitle>
+            <DialogTitle className="text-gray-800">Análise de Áudio - Vaca {selectedCow}</DialogTitle>
             <DialogDescription>
               Conecte o dispositivo de ultrassom e inicie a captura do áudio
             </DialogDescription>
